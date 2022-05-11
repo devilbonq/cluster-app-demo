@@ -8,7 +8,7 @@ COPY package*.json ./
 
 RUN npm install
 RUN npm ci --only=production
-# PY . .
+COPY . .
 
 EXPOSE 8080
 CMD [ "node", "index.js" ]

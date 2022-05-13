@@ -1,0 +1,27 @@
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: demo-app-github
+  labels:
+    app: app-github
+spec:
+  selector:
+    matchLabels:
+        app: app-github
+  replicas: 2
+  strategy:
+    type: RollingUpdate
+  template:
+    metadata:
+      labels:
+        app: app-github
+    spec:
+      containers:
+      - name: website
+        image: 917287481518.dkr.ecr.eu-west-2.amazonaws.com/demoapp:latest
+        ports:
+        - containerPort: 80
+          protocol: TCP
+        imagePullPolicy: Always

@@ -1,0 +1,7 @@
+resources:
+- deployment.yaml
+
+images:
+- name: amazonaws.com/kubernetes-github-actions
+  newName: ${ECR_REPOSITORY}
+  newTag: ${IMAGE_TAG}

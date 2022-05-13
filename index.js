@@ -1,11 +1,13 @@
 const express = require('express');
-
+const AWS = require('aws-sdk');
 const app = express();
 const port = 8080;
 
 const bodyParser = require('body-parser');
 const cors = require('cors');
 
+AWS.config.update({region: 'eu-west-2'});
+const cwevents = new AWS.CloudWatchEvents({apiVersion: '2015-10-07'});
 
 app.get('/', (req, res) => {
     res.send('Express init');
@@ -86,5 +88,20 @@ app.post('/book/:isbn', (req, res) => {
     }
     res.send('Book is edited in the database');
 });
+
+const params = {
+    Name: 'SAMPLE_EVENT',
+    RoleArn: 'arn:aws:iam::917287481518:role/STAAssumeRole',
+    ScheduleExpression: 'rate(5 minutes)',
+    State: 'ENABLED'
+  };
+  
+  cwevents.putRule(params, function(err, data) {
+    if (err) {
+      console.log("Error", err);
+    } else {
+      console.log("Success", data.RuleArn);
+    }
+  });
 
 app.listen(port, () => console.log(`Hello world app listening on port ${port}!`))

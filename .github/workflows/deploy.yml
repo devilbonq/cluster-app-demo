@@ -31,7 +31,7 @@ jobs:
           chmod +x kubectl
           sudo mv kubectl /usr/local/bin/
           echo Get kubeconfig 
-          echo ${{ secrets.KUBE_CONFIG }} | base64 --decode > kubeconfig.yaml
+          echo ${{ secrets.KUBE_CONFIG }} | base64 -decode
 
       - name: Deploy
         env:
